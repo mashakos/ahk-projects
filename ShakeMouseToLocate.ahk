@@ -90,6 +90,8 @@ Gdip_Shutdown(pToken)
 global avMousePosX, avMousePosY, GuiWidth, GuiHeight
 CoordMode "Mouse", "Screen"
 MouseGetPos &avMousePosX, &avMousePosY
+avMousePosX -= 12
+avMousePosY -= 8
 global win_mouse := Gui("+AlwaysOnTop +ToolWindow -SysMenu -Caption", APP_NAME)
 win_mouse.BackColor := GuiBackColor
 WinSetTransColor(GuiBackColor, win_mouse)
@@ -181,6 +183,8 @@ Loop
   global avMousePosX, avMousePosY
   CoordMode "Mouse", "Screen"
   MouseGetPos &avMousePosX, &avMousePosY
+  avMousePosX -= 12
+  avMousePosY -= 8
   _detectMouseMoves()
   _updateMouse()
   Sleep 10
@@ -433,9 +437,10 @@ _moveBigMouse()
   global avMousePosX, avMousePosY
   CoordMode "Mouse", "Screen"
   MouseGetPos &avMousePosX, &avMousePosY
+  avMousePosX -= 12
+  avMousePosY -= 8
   ws_ID := win_mouse.Hwnd
-  win_mouse.Show("x" . avMousePosX . " y" . avMousePosY . "")
-;  WinSetTransColor GuiBackColor, "ahk_id " ws_ID
+  win_mouse.Show("x" . avMousePosX . " y" . avMousePosY . " NoActivate")
 }
 
 ; -------------------------------
@@ -463,7 +468,6 @@ _showBig()
   {
     showing := 1
     SetSystemCursor("")
-    win_mouse.Show()
   }
 }
 
