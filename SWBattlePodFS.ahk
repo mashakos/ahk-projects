@@ -30,8 +30,8 @@ if not (A_IsAdmin or RegExMatch(full_command_line, " /restart(?!\S)"))
 
 ScreenCheck_Init := Number(0)
 ScreenCheck_Tick := Number(0)
-SWBattlePodhWidth := Number(2560)
-SWBattlePodHeight := Number(1440)
+SWBattlePodhWidth := Number(A_screenWidth)
+SWBattlePodHeight := Number(A_screenWidth * 0.5625)
 SWBattlePodX := Number(Floor( (A_screenWidth / 2) - (SWBattlePodhWidth / 2) ))
 SWBattlePodY := Number(Floor( (A_screenHeight / 2) - (SWBattlePodHeight / 2) ))
 
@@ -43,16 +43,16 @@ Format("{:d}", SWBattlePodHeight)
 
 Run "TeknoParrotUi.exe --profile=StarWars.xml --startMinimized"
 
-WinWaitActive("ahk_class LaunchUnrealUWindowsClient", , 2) 
-
+WinWaitActive("ahk_exe OpenParrotLoader64.exe", , 32) 
 
 MyGui := Gui()
 MyGui.Opt("-Caption +ToolWindow")
 MyGui.BackColor := "000000"
 MyGui.Show("x0 y0 h" . A_ScreenHeight . " w" . A_ScreenWidth . " Center")
 
+WinWaitActive("ahk_class LaunchUnrealUWindowsClient", , 32) 
 
-sleep 15000
+sleep 1000
 
 global SWBattlePodX := Number(Floor( (A_screenWidth / 2) - (SWBattlePodhWidth / 2) ))
 global SWBattlePodY := Number(Floor( (A_screenHeight / 2) - (SWBattlePodHeight / 2) ))
@@ -61,6 +61,10 @@ global SWBattlePodY := Number(Floor( (A_screenHeight / 2) - (SWBattlePodHeight /
 WinSetStyle -0xC40000, "ahk_class LaunchUnrealUWindowsClient"
 WinMove(SWBattlePodX, SWBattlePodY,,, "ahk_class LaunchUnrealUWindowsClient")
 WinMove(SWBattlePodX, SWBattlePodY, SWBattlePodhWidth, SWBattlePodHeight, "ahk_class LaunchUnrealUWindowsClient")
+
+sleep 1000
+
+WinActivate("ahk_class LaunchUnrealUWindowsClient")
 
 ; Use "SetWindowPos" to override stubborn windows who insist on a 
 ; minimum size
@@ -83,7 +87,7 @@ Loop
 
         ScreenCheck_Tick++
 
-        if not WinExist("ahk_class LaunchUnrealUWindowsClient")
+        if not WinExist("ahk_exe ahk_exe SWArcGame-Win64-Shipping.exe")
         {
             ExitApp
         }

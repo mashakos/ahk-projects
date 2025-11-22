@@ -36,9 +36,9 @@ Run 'DS4Windows.exe -command LoadTempProfile.2.M+KB'
 Run 'DS4Windows.exe -command LoadProfile.2.M+KB'
 
 SetWorkingDir A_InitialWorkingDir
-Run "darkplaces.exe " . args
+Run "darkplaces-sdl.exe " . args
 
-NewPID := ProcessWait("darkplaces.exe")
+NewPID := ProcessWait("darkplaces-sdl.exe")
 WaitPID := ProcessWaitClose(NewPID)
 if not WaitPID
 {
