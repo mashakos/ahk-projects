@@ -2,14 +2,11 @@
 ; Ensures a consistent starting directory.
 SetWorkingDir A_ScriptDir
 
-; Script to run Youtube TV via a sandboxed chrome instance. Also auto hides mouse cursor after 1 second of inactivity.
+; Script to run Youtube TV via a sandboxed chrome instance. Also auto hides mouse cursor after 1 second of inactivity. DS4Windows controller profile switching feature as well.
 ; Notes
 ; Change the following locations as per your setup:
-; executablePath
-; path to chrome
-
-; --user-data-dir 
-; This is a folder which you create, that houses the sesion/cookie data for youtube tv
+; executablePath :- path to chrome
+; --user-data-dir :- This is a folder which you create, that houses the sesion/cookie data for youtube tv
 
 ; User Agents to get Youtube TV working on a desktop browser:
 ; PS4:
@@ -32,8 +29,16 @@ executablePath := '"C:\Program Files\Google\Chrome\Application\chrome.exe" --sta
 
 Run executablePath
 
+; Match against exact window title
 SetTitleMatchMode(3)
 WinWaitActive("YouTube on TV - Google Chrome", , 10)
+
+; Set DS4Windows controller profile for youtube TV
+SetWorkingDir "D:\DS4Windows"
+Run 'DS4Windows.exe -command LoadTempProfile.1.youtubeTV'
+Run 'DS4Windows.exe -command LoadProfile.1.youtubeTV'
+Run 'DS4Windows.exe -command LoadTempProfile.2.youtubeTV'
+Run 'DS4Windows.exe -command LoadProfile.2.youtubeTV'  
 
 Loop
 {
@@ -41,12 +46,14 @@ Loop
         If(Mouse_X != Last_X || Mouse_Y != Last_Y)
         {
             If(MouseState == False)
+                ; Show mouse cursor
                 RestoreCursor()
             MouseState := True
             Last_Move := A_TickCount
         }
         If(A_TickCount > Last_Move + 1000 && MouseState == True) 
         {
+            ; Hide mouse cursor
             SetSystemCursor()
             MouseState := False
         }
@@ -55,7 +62,14 @@ Loop
 
         if !WinExist("YouTube on TV - Google Chrome")
         {
+            ; Show mouse cursor
             RestoreCursor()
+            ; Switch DS4Windows back to kodi profile once exiting out of youtube TV
+            SetWorkingDir "D:\DS4Windows"
+            Run 'DS4Windows.exe -command LoadTempProfile.1.HTPC'
+            Run 'DS4Windows.exe -command LoadProfile.1.HTPC'
+            Run 'DS4Windows.exe -command LoadTempProfile.2.HTPC'
+            Run 'DS4Windows.exe -command LoadProfile.2.HTPC'
             ExitApp()
         }
 

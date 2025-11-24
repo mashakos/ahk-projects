@@ -1,6 +1,8 @@
 #Requires AutoHotkey v2.0
 
 
+AppsKey & F8::Volume_Mute
+
 AppsKey & F9::Volume_Down
 
 AppsKey & F10::Volume_Up
