@@ -46,7 +46,7 @@ if WinExist("ahk_exe DS4Windows.exe")
 }
 
 ; Set DSX controller profile for youtube TV
-if WinExist("ahk_exe DSX_Console.exe")
+if WinExist("ahk_exe DSX.exe")
 {
   SetWorkingDir "R:\SteamLibrary\steamapps\common\DSX\Main_v3_Beta\Console"
   Run 'DSX_Console.exe /silent /changeProfile 90:B6:85:D6:6C:6E Kodi'
