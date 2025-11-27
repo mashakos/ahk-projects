@@ -1,4 +1,6 @@
 #Requires AutoHotkey v2.0
+#SingleInstance force
+
 ; Ensures a consistent starting directory.
 SetWorkingDir A_ScriptDir
 
@@ -34,11 +36,21 @@ SetTitleMatchMode(3)
 WinWaitActive("YouTube on TV - Google Chrome", , 10)
 
 ; Set DS4Windows controller profile for youtube TV
-SetWorkingDir "D:\DS4Windows"
-Run 'DS4Windows.exe -command LoadTempProfile.1.youtubeTV'
-Run 'DS4Windows.exe -command LoadProfile.1.youtubeTV'
-Run 'DS4Windows.exe -command LoadTempProfile.2.youtubeTV'
-Run 'DS4Windows.exe -command LoadProfile.2.youtubeTV'  
+if WinExist("ahk_exe DS4Windows.exe")
+{
+  SetWorkingDir "D:\DS4Windows"
+  Run 'DS4Windows.exe -command LoadTempProfile.1.youtubeTV'
+  Run 'DS4Windows.exe -command LoadProfile.1.youtubeTV'
+  Run 'DS4Windows.exe -command LoadTempProfile.2.youtubeTV'
+  Run 'DS4Windows.exe -command LoadProfile.2.youtubeTV'    
+}
+
+; Set DSX controller profile for youtube TV
+if WinExist("ahk_exe DSX_Console.exe")
+{
+  SetWorkingDir "R:\SteamLibrary\steamapps\common\DSX\Main_v3_Beta\Console"
+  Run 'DSX_Console.exe /silent /changeProfile 90:B6:85:D6:6C:6E Kodi'
+}
 
 Loop
 {
@@ -65,11 +77,15 @@ Loop
             ; Show mouse cursor
             RestoreCursor()
             ; Switch DS4Windows back to kodi profile once exiting out of youtube TV
-            SetWorkingDir "D:\DS4Windows"
-            Run 'DS4Windows.exe -command LoadTempProfile.1.HTPC'
-            Run 'DS4Windows.exe -command LoadProfile.1.HTPC'
-            Run 'DS4Windows.exe -command LoadTempProfile.2.HTPC'
-            Run 'DS4Windows.exe -command LoadProfile.2.HTPC'
+            if WinExist("ahk_exe DS4Windows.exe")
+            {
+              SetWorkingDir "D:\DS4Windows"
+              Run 'DS4Windows.exe -command LoadTempProfile.1.HTPC'
+              Run 'DS4Windows.exe -command LoadProfile.1.HTPC'
+              Run 'DS4Windows.exe -command LoadTempProfile.2.HTPC'
+              Run 'DS4Windows.exe -command LoadProfile.2.HTPC'
+            }
+
             ExitApp()
         }
 
