@@ -27,13 +27,20 @@ myGui.Opt("-Caption +ToolWindow")
 myGui.BackColor := 0
 myGui.Show("x0 y0 h" . A_ScreenHeight . " w" . A_ScreenWidth . " Center")
 
-executablePath := '"C:\Program Files\Google\Chrome\Application\chrome.exe" --start-fullscreen --user-data-dir="D:\Programs\Kodi\chromProfile" --user-agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; Xbox; Xbox Series X) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.82 Safari/537.36 Edge/20.02"  --disable-features=ExtensionManifestV2Unsupported,ExtensionManifestV2Disabled https://youtube.com/tv'
+executablePath := '"C:\Program Files\Google\Chrome\Application\chrome.exe" --start-fullscreen --user-data-dir="D:\Programs\Kodi\chromProfile" --user-agent="Mozilla/5.0 (Linux; Android 12) Cobalt/22.2.3-gold (PS4)"  --disable-features=ExtensionManifestV2Unsupported,ExtensionManifestV2Disabled https://youtube.com/tv'
 
 Run executablePath
 
 ; Match against exact window title
 SetTitleMatchMode(3)
 WinWaitActive("YouTube on TV - Google Chrome", , 10)
+
+WinSetAlwaysOnTop true, "YouTube on TV - Google Chrome"
+MyGui.Destroy()
+WinActivate("YouTube on TV - Google Chrome")
+
+; Alt + F4
+!F4::WinClose("YouTube on TV - Google Chrome")
 
 ; Set DS4Windows controller profile for youtube TV
 if WinExist("ahk_exe DS4Windows.exe")

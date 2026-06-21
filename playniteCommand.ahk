@@ -18,7 +18,7 @@ if WinExist("ahk_exe DS4Windows.exe")
 }
 
 ; Ensures a consistent starting directory.
-SetWorkingDir A_ScriptDir
+SetWorkingDir "D:\Playnite"
 
 myGui := Gui()
 myGui.Opt("-Caption +ToolWindow")
@@ -28,5 +28,9 @@ myGui.Show("x0 y0 h" . A_ScreenHeight . " w" . A_ScreenWidth . " Center")
 executablePath := 'D:\Playnite\Playnite.FullscreenApp.exe --hidesplashscreen'
 
 RunWait executablePath
+
+  SetWorkingDir "R:\SteamLibrary\steamapps\common\DSX\Main_v3_Beta\Console"
+  Run 'DSX_Console.exe /silent /changeProfile 90:B6:85:D6:6C:6E Kodi'
+
 
 ExitApp

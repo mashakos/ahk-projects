@@ -7,6 +7,39 @@ AppsKey & F9::Volume_Down
 
 AppsKey & F10::Volume_Up
 
+; Pause -> Home key conversion
+; Plain Pause (Shift/Alt/Win modifiers passed through via {Blind})
+*Pause::
+{
+    SendEvent "{Blind}{Home down}"
+}
+*Pause up::
+{
+    SendEvent "{Blind}{Home up}"
+}
+
+; Ctrl+Pause physically generates CtrlBreak - handle separately
+; Wildcard catches all Ctrl+modifier+Pause combinations
+*CtrlBreak::
+{
+    mods := "{Ctrl down}"
+    if GetKeyState("Shift")
+        mods .= "{Shift down}"
+    if GetKeyState("Alt")
+        mods .= "{Alt down}"
+    SendEvent mods "{Home down}"
+}
+*CtrlBreak up::
+{
+    mods := ""
+    if GetKeyState("Shift")
+        mods .= "{Shift up}"
+    if GetKeyState("Alt")
+        mods .= "{Alt up}"
+    SendEvent "{Home up}{Ctrl up}" mods
+}
+; END OF Pause -> Home key conversion
+
 AppsKey & F11::
 {
 	AdjustScreenBrightness(-10)
