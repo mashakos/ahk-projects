@@ -8,7 +8,7 @@ SetWorkingDir A_ScriptDir
 ; Notes
 ; Change the following locations as per your setup:
 ; executablePath :- path to Firefox
-; -P :- Profile name. This profile houses the sesion/cookie data for youtube tv
+; -P :- Profile name. This profile houses the session/cookie data for youtube tv
 ; To set up profile, run this command: 
 ; firefox.exe -P
 ; In the wizard, create a profile, named "Youtube TV" here
@@ -21,7 +21,7 @@ SetWorkingDir A_ScriptDir
 ; Set type to string and click the add button
 ; in the string field type: Mozilla/5.0 (Linux; Android 12) Cobalt/22.2.3-gold (PS4)
 ; Install uBlock Origin
-; In uBO settings, switch to My Filters tab
+; In uBlock Origin settings, switch to My Filters tab
 ; Add this filter for Youtube TV:
 ; www.youtube.com##+js(json-prune-fetch-response, adPlacements adSlots playerResponse.adPlacements playerResponse.adSlots [].playerResponse.adPlacements [].playerResponse.adSlots, , propsToMatch, /\/player(\?|$)/)
 
