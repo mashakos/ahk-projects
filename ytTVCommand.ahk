@@ -4,17 +4,32 @@
 ; Ensures a consistent starting directory.
 SetWorkingDir A_ScriptDir
 
-; Script to run Youtube TV via a sandboxed chrome instance. Also auto hides mouse cursor after 1 second of inactivity. DS4Windows controller profile switching feature as well.
+; Script to run Youtube TV via a sandboxed Firefox instance. Also auto hides mouse cursor after 1 second of inactivity. DS4Windows controller profile switching feature as well.
 ; Notes
 ; Change the following locations as per your setup:
-; executablePath :- path to chrome
-; --user-data-dir :- This is a folder which you create, that houses the sesion/cookie data for youtube tv
+; executablePath :- path to Firefox
+; -P :- Profile name. This profile houses the sesion/cookie data for youtube tv
+; To set up profile, run this command: 
+; firefox.exe -P
+; In the wizard, create a profile, named "Youtube TV" here
+; Select the profile folder
+; To set up user agent in your new Firfox profile:
+; launch Firefox first: firefox.exe -P "Youtube TV"
+; In the address bar, type: about:config
+; Accept the warning and continue
+; In the filter bar type: general.useragent.override
+; Set type to string and click the add button
+; in the string field type: Mozilla/5.0 (Linux; Android 12) Cobalt/22.2.3-gold (PS4)
+; Install uBlock Origin
+; In uBO settings, switch to My Filters tab
+; Add this filter for Youtube TV:
+; www.youtube.com##+js(json-prune-fetch-response, adPlacements adSlots playerResponse.adPlacements playerResponse.adSlots [].playerResponse.adPlacements [].playerResponse.adSlots, , propsToMatch, /\/player(\?|$)/)
 
 ; User Agents to get Youtube TV working on a desktop browser:
 ; PS4:
-; Mozilla/5.0 (PS4; Leanback Shell) Gecko/20100101 Firefox/65.0 LeanbackShell/01.00.01.75 Sony PS4/ (PS4, , no, CH)
+; Mozilla/5.0 (Linux; Android 12) Cobalt/22.2.3-gold (PS4)
 ; Xbox Series X:
-; Mozilla/5.0 (Windows NT 10.0; Win64; x64; Xbox; Xbox Series X) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.82 Safari/537.36 Edge/20.02
+; Mozilla/5.0 (Windows NT 10.0; Win64; x64; Xbox; Xbox Series X) AppleWebKit/537.36 (KHTML, like Gecko) Firefox/48.0.2564.82 Safari/537.36 Edge/20.02
 
 
 
@@ -27,20 +42,20 @@ myGui.Opt("-Caption +ToolWindow")
 myGui.BackColor := 0
 myGui.Show("x0 y0 h" . A_ScreenHeight . " w" . A_ScreenWidth . " Center")
 
-executablePath := '"C:\Program Files\Google\Chrome\Application\chrome.exe" --start-fullscreen --user-data-dir="D:\Programs\Kodi\chromProfile" --user-agent="Mozilla/5.0 (Linux; Android 12) Cobalt/22.2.3-gold (PS4)"  --disable-features=ExtensionManifestV2Unsupported,ExtensionManifestV2Disabled https://youtube.com/tv'
+executablePath := 'C:\Program Files\Mozilla Firefox\firefox.exe -P "Youtube TV" -kiosk "https://youtube.com/tv"'
 
 Run executablePath
 
 ; Match against exact window title
 SetTitleMatchMode(3)
-WinWaitActive("YouTube on TV - Google Chrome", , 10)
+WinWaitActive("YouTube on TV — Mozilla Firefox", , 10)
 
-WinSetAlwaysOnTop true, "YouTube on TV - Google Chrome"
+WinSetAlwaysOnTop true, "YouTube on TV — Mozilla Firefox"
 MyGui.Destroy()
-WinActivate("YouTube on TV - Google Chrome")
+WinActivate("YouTube on TV — Mozilla Firefox")
 
 ; Alt + F4
-!F4::WinClose("YouTube on TV - Google Chrome")
+!F4::WinClose("YouTube on TV — Mozilla Firefox")
 
 ; Set DS4Windows controller profile for youtube TV
 if WinExist("ahk_exe DS4Windows.exe")
@@ -79,7 +94,7 @@ Loop
         Last_X := Mouse_X, Last_Y := Mouse_Y
 
 
-        if !WinExist("YouTube on TV - Google Chrome")
+        if !WinExist("YouTube on TV — Mozilla Firefox")
         {
             ; Show mouse cursor
             RestoreCursor()
